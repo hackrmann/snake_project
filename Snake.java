@@ -68,25 +68,29 @@ public class Snake implements ActionListener, KeyListener {
 				if (head.y + 1 < 76)
 					head = (new Point(head.x, head.y + 1));
 				else
-					over = true;
+					//over = true;
+					head.y = 0;
 			}
 			if (direction == UP) {
 				if (head.y  > 0)
 					head = (new Point(head.x, head.y - 1));
 				else
-					over = true;
+					//over = true;
+					head.y = 75;
 			}
 			if (direction == LEFT) {
 				if (head.x > 0)
 					head = (new Point(head.x - 1, head.y));
 				else
-					over = true;
+					//over = true;
+					head.x = 78;
 			}
 			if (direction == RIGHT) {
 				if (head.x + 1 < 79)
 					head = (new Point(head.x + 1, head.y));
 				else
-					over = true;
+					//over = true;
+					head.x = 0;
 			}
 			if(snakeParts.size() > tailLength) {
 				snakeParts.remove(0);
