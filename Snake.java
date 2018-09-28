@@ -13,7 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.Point;
 
 public class Snake implements ActionListener, KeyListener {
-
+	
 	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
 
 	public static Snake snake;
