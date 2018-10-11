@@ -71,40 +71,48 @@ public class Snake implements ActionListener, KeyListener {
 
 			snakeParts.add( (Point)head.clone() );
 			if (direction == DOWN) {
-				if (head.y + 1 < 76)
-					head = (new Point(head.x, head.y + 1));
-				else {
-					if (!walls) over = true;
-					else	head.y = 0;
+				if(noTail(head.x,head.y+1)) {
+					if (head.y + 1 < 76)
+						head = (new Point(head.x, head.y + 1));
+					else {
+						if (!walls) over = true;
+						else	head.y = 0;
+					}
 				}
-					
+				else over = true;
 			}
 			if (direction == UP) {
-				if (head.y  > 0)
-					head = (new Point(head.x, head.y - 1));
-				else {
-					if(!walls) over = true;
-					else	head.y = 75;
+				if(noTail(head.x,head.y-1)) {
+					if (head.y  > 0)
+						head = (new Point(head.x, head.y - 1));
+					else {
+						if(!walls) over = true;
+						else	head.y = 75;
+					}
 				}
-					
+				else over = true;	
 			}
 			if (direction == LEFT) {
-				if (head.x > 0)
-					head = (new Point(head.x - 1, head.y));
-				else {
-					if(!walls) over = true;
-					else	head.x = 78;
+				if(noTail(head.x-1,head.y)) {
+					if (head.x > 0)
+						head = (new Point(head.x - 1, head.y));
+					else {
+						if(!walls) over = true;
+						else	head.x = 78;
+					}
 				}
-					
+				else over = true;
 			}
 			if (direction == RIGHT) {
-				if (head.x + 1 < 79)
-					head = (new Point(head.x + 1, head.y));
-				else {
-					if(!walls) over = true;
-					else	head.x = 0;
+				if(noTail(head.x+1,head.y)) {
+					if (head.x + 1 < 79)
+						head = (new Point(head.x + 1, head.y));
+					else {
+						if(!walls) over = true;
+						else	head.x = 0;
+					}
 				}
-					
+				else over = true;	
 			}
 			if(snakeParts.size() > tailLength) {
 				snakeParts.remove(0);
@@ -121,6 +129,16 @@ public class Snake implements ActionListener, KeyListener {
 
 	}
 	
+	private boolean noTail(int x, int y) {
+		// TODO Auto-generated method stub
+		for(Point point : snakeParts) {
+			if(point.equals(new Point(x,y))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public void initializeWalls(int flag) {
 		if(flag==1) {
 			walls = true;
@@ -173,7 +191,6 @@ public class Snake implements ActionListener, KeyListener {
 		Scanner in = new Scanner(System.in);
 		int ch = in .nextInt();
 		snake = new Snake(ch);
-		
 		
 	}
 
