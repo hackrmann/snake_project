@@ -2,6 +2,8 @@ package game1;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import java.awt.Dimension;
@@ -15,7 +17,9 @@ import java.awt.Point;
 public class Snake implements ActionListener, KeyListener {
 	
 	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
-
+	public boolean walls;
+	public int gar;
+	
 	public static Snake snake;
 
 	public JFrame jframe;
@@ -30,7 +34,8 @@ public class Snake implements ActionListener, KeyListener {
 	public Dimension dim;
 	public boolean over = false,pause = false;
 
-	public Snake() {
+	public Snake(int ch) {
+		gar = ch;
 		dim = Toolkit.getDefaultToolkit().getScreenSize();
 		jframe = new JFrame("Snake");
 		jframe.setVisible(true);
@@ -56,8 +61,9 @@ public class Snake implements ActionListener, KeyListener {
 		
 		timer.start();
 	}
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent x) {
+
+		this.initializeWalls(gar);
 		renderPanel.repaint();
 		ticks++;
 		//Random mee = new Random();
@@ -67,26 +73,38 @@ public class Snake implements ActionListener, KeyListener {
 			if (direction == DOWN) {
 				if (head.y + 1 < 76)
 					head = (new Point(head.x, head.y + 1));
-				else
-					over = true;
+				else {
+					if (!walls) over = true;
+					else	head.y = 0;
+				}
+					
 			}
 			if (direction == UP) {
 				if (head.y  > 0)
 					head = (new Point(head.x, head.y - 1));
-				else
-					over = true;
+				else {
+					if(!walls) over = true;
+					else	head.y = 75;
+				}
+					
 			}
 			if (direction == LEFT) {
 				if (head.x > 0)
 					head = (new Point(head.x - 1, head.y));
-				else
-					over = true;
+				else {
+					if(!walls) over = true;
+					else	head.x = 78;
+				}
+					
 			}
 			if (direction == RIGHT) {
 				if (head.x + 1 < 79)
 					head = (new Point(head.x + 1, head.y));
-				else
-					over = true;
+				else {
+					if(!walls) over = true;
+					else	head.x = 0;
+				}
+					
 			}
 			if(snakeParts.size() > tailLength) {
 				snakeParts.remove(0);
@@ -102,9 +120,14 @@ public class Snake implements ActionListener, KeyListener {
 		}
 
 	}
-
-	public static void main(String[] args) {
-		snake = new Snake();
+	
+	public void initializeWalls(int flag) {
+		if(flag==1) {
+			walls = true;
+		}
+		if(flag==2) {
+			walls = false;
+		}
 	}
 
 	@Override
@@ -143,6 +166,15 @@ public class Snake implements ActionListener, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		//Not using
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("Hello! Welcome to the snake game. There are 2 modes:\n1. Can walk through walls\n2. Die if you walk through walls. Which mode would you like to play on ");
+		Scanner in = new Scanner(System.in);
+		int ch = in .nextInt();
+		snake = new Snake(ch);
+		
+		
 	}
 
 }
